@@ -7,8 +7,10 @@ leftWristY = 0;
 scoreRightWrist = 0
 scoreLeftWrist = 0
 song = ""
+song2 = ""
 function preload(){
     song = loadSound("music.mp3")
+    song2 = loadSound("masked wolf astronaut in the ocean.mp3")
 }
 
 function setup(){
@@ -91,7 +93,7 @@ function draw(){
 
 
 function play(){
-    song.play()
+    song2.play()
 }
 
 function modelLoaded(){
