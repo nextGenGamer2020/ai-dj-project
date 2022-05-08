@@ -6,9 +6,16 @@ leftWristY = 0;
 
 scoreRightWrist = 0
 scoreLeftWrist = 0
-song = ""
+
+song1Status = ""
+song2Status = ""
+
+
+song1 = ""
+song2 = ""
 function preload(){
-    song = loadSound("music.mp3")
+    song1 = loadSound("music.mp3")
+    song2 = loadSound("masked wolf astronaut in the ocean.mp3")
 }
 
 function setup(){
@@ -23,8 +30,14 @@ function setup(){
 }
 
 
+function modelLoaded(){
+    console.log("modelLoaded")
+}
+
+
 function gotPoses(result){
     if(result.length > 0){
+        console.log(result)
         
         scoreRightWrist = result[0].pose.keypoints[10].score
         scoreLeftWrist = result[0].pose.keypoints[9].score
@@ -46,54 +59,43 @@ function gotPoses(result){
 
 function draw(){
     image(video, 0,0, 350,350 )
+
+    song1Status = song.isPlaying()
+    song2Status = song.isPlaying()
+
     fill("#063970")
     stroke("#000000")
     if(scoreRightWrist>0.2){
 
     
     circle(rightWristX, rightWristY, 20)
-    if(rightWristY>0 && rightWristY <=90){
-        document.getElementById("speed").innerHTML = "Speed = 0.5x"
-        song.rate(0.5)
-    }
-    
-    else 
 
-    if(rightWristY>90 && rightWristY <=180){
-        document.getElementById("speed").innerHTML = "Speed = 1x"
-        song.rate(1)
+    song2.stop()
+    if(song1Status == false){
+        song1.play()
+        document.getElementById("current_song").innerHTML = "Harry Potter Theme Song"
     }
-    else
-    if(rightWristY>180 && rightWristY <=270){
-        document.getElementById("speed").innerHTML = "Speed = 1.5x"
-        song.rate(1.5)
-    }
-    else
-    if(rightWristY>270 && rightWristY <=360){
-        document.getElementById("speed").innerHTML = "Speed = 2x"
-        song.rate(2)
-    }
-}
-
+   
 
     if(scoreLeftWrist>0.2){
 
     circle(leftWristX,leftWristY,20)
-    InNumberLeftY = Number(leftWristY)
-    removeDecimals = floor(InNumberLeftY)
-    volume = (removeDecimals/350).toFixed(3)
-    document.getElementById("volume").innerHTML = "Volume = "+volume
-    song.setVolume(volume)
-}
+    song1.stop()
+    if(song2Status == false){
+        song2.play()
+        document.getElementById("current_song").innerHTML = "Astronaut in the Ocean"
+    }
+    
+    }
 
 
+    }
 }
 
 
 function play(){
     song.play()
+    song.setVolume(1)
+    song.rate(1)
 }
 
-function modelLoaded(){
-    console.log("modelLoaded")
-}
